@@ -77,11 +77,10 @@ main {
 /* MAP CONTAINER (stânga) */
 .map-container {
   flex: 2; /* harta să ocupe mai mult spațiu */
-  height: auto;
   min-height: 500px; /* poți ajusta după preferință */
 }
 
-/* Harta Leaflet are nevoie de dimensiuni */
+/* Pentru harta Leaflet, trebuie ca #mapid să ocupe 100% din container */
 #mapid {
   width: 100%;
   height: 100%;

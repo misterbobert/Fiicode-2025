@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UrbanFlow </title>
- 
+  <title>UrbanFlow</title>
 
-  <!-- Fișierul tău CSS -->
+  <!-- Fișierul tău CSS principal -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Include CSS-ul oficial Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <!-- Include CSS pentru Leaflet Routing Machine -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
+  />
+  <!-- Include CSS pentru Control.Geocoder (opțional, dacă vrei geocodare directă în control) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+  />
 </head>
 <body>
   <!-- HEADER: Meniu sus -->
@@ -66,6 +82,16 @@
     <p>&copy; 2025 UrbanFlow | <a href="#">Termeni și condiții</a> | <a href="#">Politica de confidențialitate</a></p>
   </footer>
 
- 
+  <!-- Include script-ul oficial Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Include script-ul pentru Leaflet Routing Machine -->
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+  <!-- Include script-ul pentru geocodare (opțional, dacă vrei să folosești direct geocoder integrat) -->
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+  <!-- Scriptul personal pentru inițializarea hărții și logica de rutare -->
+  <script src="script.js"></script>
 </body>
 </html>
