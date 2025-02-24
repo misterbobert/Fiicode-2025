@@ -157,3 +157,30 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+/* ---------- AUTOCOMPLETE ---------- */
+.autocomplete-wrapper {
+  position: relative; /* important pentru containerul sugestiilor */
+}
+
+.autocomplete-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.autocomplete-suggestion {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.autocomplete-suggestion:hover {
+  background-color: #f2f2f2;
+}

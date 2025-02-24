@@ -19,7 +19,8 @@
     rel="stylesheet"
     href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
   />
-  <!-- Include CSS pentru Control.Geocoder (opțional, dacă vrei geocodare directă în control) -->
+
+  <!-- (Opțional) Include CSS pentru Control.Geocoder, dacă vrei să folosești geocodare integrată în control -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
@@ -52,14 +53,19 @@
       <!-- Containerul pentru formular (dreapta) -->
       <div class="form-container">
         <h2>Planifică Ruta</h2>
-        <div class="form-group">
+
+        <!-- Input plecare cu wrapper pentru autocomplete -->
+        <div class="form-group autocomplete-wrapper">
           <label for="start">Loc plecare</label>
-          <input type="text" id="start" placeholder="Ex: Piața Unirii">
+          <input type="text" id="start" placeholder="Ex: Piața Unirii" />
+          <div class="autocomplete-suggestions" id="start-suggestions"></div>
         </div>
 
-        <div class="form-group">
+        <!-- Input destinație cu wrapper pentru autocomplete -->
+        <div class="form-group autocomplete-wrapper">
           <label for="end">Destinație</label>
-          <input type="text" id="end" placeholder="Ex: Gara de Nord">
+          <input type="text" id="end" placeholder="Ex: Gara de Nord" />
+          <div class="autocomplete-suggestions" id="end-suggestions"></div>
         </div>
 
         <div class="form-group">
@@ -88,10 +94,10 @@
   <!-- Include script-ul pentru Leaflet Routing Machine -->
   <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-  <!-- Include script-ul pentru geocodare (opțional, dacă vrei să folosești direct geocoder integrat) -->
+  <!-- (Opțional) Include script-ul pentru geocodare directă în control -->
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-  <!-- Scriptul personal pentru inițializarea hărții și logica de rutare -->
+  <!-- Scriptul personal pentru inițializarea hărții și logica de rutare + autocomplete -->
   <script src="script.js"></script>
 </body>
 </html>
