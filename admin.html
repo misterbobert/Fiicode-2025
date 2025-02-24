@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - UrbanFlow</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h2>Autentificare Administrație Locală</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Utilizator</label>
+          <input type="text" id="username" placeholder="Introdu utilizatorul">
+        </div>
+        <div class="form-group">
+          <label for="password">Parolă</label>
+          <input type="password" id="password" placeholder="Introdu parola">
+        </div>
+        <button type="submit" id="loginButton">Logare</button>
+      </form>
+      <p id="errorMsg" class="error-msg"></p>
+    </div>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

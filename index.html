@@ -9,22 +9,13 @@
   <link rel="stylesheet" href="styles.css">
 
   <!-- Include CSS-ul oficial Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <!-- Include CSS pentru Leaflet Routing Machine -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 
-  <!-- (Opțional) Include CSS pentru Control.Geocoder, dacă vrei să folosești geocodare integrată în control -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
-  />
+  <!-- (Opțional) Include CSS pentru Control.Geocoder -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 </head>
 <body>
   <!-- HEADER: Meniu sus -->
@@ -50,35 +41,45 @@
       <!-- Containerul pentru harta Leaflet -->
       <div id="mapid" class="map-container"></div>
 
-      <!-- Containerul pentru formular (dreapta) -->
+      <!-- Containerul pentru formular -->
       <div class="form-container">
         <h2>Planifică Ruta</h2>
 
-        <!-- Input plecare cu wrapper pentru autocomplete -->
+        <!-- Input plecare -->
         <div class="form-group autocomplete-wrapper">
           <label for="start">Loc plecare</label>
           <input type="text" id="start" placeholder="Ex: Piața Unirii" />
           <div class="autocomplete-suggestions" id="start-suggestions"></div>
         </div>
 
-        <!-- Input destinație cu wrapper pentru autocomplete -->
+        <!-- Input destinație -->
         <div class="form-group autocomplete-wrapper">
           <label for="end">Destinație</label>
           <input type="text" id="end" placeholder="Ex: Gara de Nord" />
           <div class="autocomplete-suggestions" id="end-suggestions"></div>
         </div>
 
+        <!-- Select pentru mijlocul de transport -->
         <div class="form-group">
           <label for="transport">Mijloc de transport</label>
           <select id="transport">
             <option value="auto">Mașină</option>
-            <option value="bus">Autobuz</option>
-            <option value="bike">Bicicletă</option>
+            <option value="public">Transport în comun</option>
             <option value="walk">Pietonal</option>
           </select>
         </div>
 
         <button class="btn-planifica">Planifică</button>
+      </div>
+    </div>
+
+    <!-- Card de rezultate (ascuns inițial) -->
+    <div id="resultCard" style="display: none;">
+      <div class="result-content">
+        <h2>Informații Rută</h2>
+        <p id="resultDistance">Distanță: -- km</p>
+        <p id="resultTime">Timp estimat: -- minute</p>
+        <button id="closeResultCard">Închide</button>
       </div>
     </div>
   </main>
@@ -94,10 +95,10 @@
   <!-- Include script-ul pentru Leaflet Routing Machine -->
   <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-  <!-- (Opțional) Include script-ul pentru geocodare directă în control -->
+  <!-- (Opțional) Include script-ul pentru Control.Geocoder -->
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-  <!-- Scriptul personal pentru inițializarea hărții și logica de rutare + autocomplete -->
+  <!-- Scriptul personal -->
   <script src="script.js"></script>
 </body>
 </html>

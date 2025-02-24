@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrare Transporturi în Comun</title>
+  <link rel="stylesheet" href="admin-transport.css">
+</head>
+<body>
+  <div class="management-container">
+    <div class="management-card">
+      <h2>Administrare Transporturi în Comun</h2>
+      <form id="transportForm">
+        <div class="form-group">
+          <label for="transportType">Tip transport</label>
+          <select id="transportType">
+            <option value="autobuz">Autobuz</option>
+            <option value="tramvai">Tramvai</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="transportNumber">Număr</label>
+          <input type="text" id="transportNumber" placeholder="Introdu numărul transportului">
+        </div>
+        <div class="form-group">
+          <label for="transportRoute">Traseu (stații separate prin virgulă)</label>
+          <textarea id="transportRoute" placeholder="Ex: Stația 1, Stația 2, Stația 3"></textarea>
+        </div>
+        <div class="form-buttons">
+          <button type="button" id="addTransport">Adaugă Transport</button>
+          <button type="button" id="modifyTransport">Modifică Transport</button>
+          <button type="button" id="deleteTransport">Șterge Transport</button>
+        </div>
+      </form>
+      <hr>
+      <h3>Lista Transporturilor</h3>
+      <table id="transportTable">
+        <thead>
+          <tr>
+            <th>Tip</th>
+            <th>Număr</th>
+            <th>Traseu</th>
+            <th>Acțiune</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rândurile se vor completa din JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="admin-transport.js"></script>
+</body>
+</html>
