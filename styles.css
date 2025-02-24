@@ -1,0 +1,160 @@
+/* Reset de bază */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* BODY */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* HEADER (meniul de sus) */
+.top-nav {
+  background-color: #2ecc71; /* verde */
+  padding: 0.5rem 1rem;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo h1 {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Wide card: container mare pentru hartă + formular */
+.wide-card {
+  background-color: #fff;
+  width: 100%;
+  max-width: 900px; /* ajustează după preferință */
+  min-height: 500px; /* ca să fie suficient spațiu pentru hartă */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex; /* harta și formularul una lângă alta */
+  overflow: hidden; /* ascunde marginile rotunjite */
+}
+
+/* MAP CONTAINER (stânga) */
+.map-container {
+  flex: 2; /* harta să ocupe mai mult spațiu */
+  height: auto;
+  min-height: 500px; /* poți ajusta după preferință */
+}
+
+/* Harta Leaflet are nevoie de dimensiuni */
+#mapid {
+  width: 100%;
+  height: 100%;
+}
+
+/* FORM CONTAINER (dreapta) */
+.form-container {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f8f8f8; /* ușor gri, pentru contrast */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-container h2 {
+  color: #2ecc71;
+  margin-bottom: 1rem;
+}
+
+/* Grupurile de formular */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Buton de planificare */
+.btn-planifica {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-planifica:hover {
+  background-color: #1e8449;
+}
+
+/* FOOTER */
+footer {
+  background-color: #fff;
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+footer p {
+  color: #333;
+}
+
+footer a {
+  color: #27ae60;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}

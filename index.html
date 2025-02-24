@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UrbanFlow </title>
+ 
+
+  <!-- Fișierul tău CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER: Meniu sus -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>UrbanFlow</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Acasă</a></li>
+          <li><a href="#">Rute</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN: Conținut principal -->
+  <main>
+    <!-- Card lat care conține harta (stânga) + formular (dreapta) -->
+    <div class="wide-card">
+      <!-- Containerul pentru harta Leaflet -->
+      <div id="mapid" class="map-container"></div>
+
+      <!-- Containerul pentru formular (dreapta) -->
+      <div class="form-container">
+        <h2>Planifică Ruta</h2>
+        <div class="form-group">
+          <label for="start">Loc plecare</label>
+          <input type="text" id="start" placeholder="Ex: Piața Unirii">
+        </div>
+
+        <div class="form-group">
+          <label for="end">Destinație</label>
+          <input type="text" id="end" placeholder="Ex: Gara de Nord">
+        </div>
+
+        <div class="form-group">
+          <label for="transport">Mijloc de transport</label>
+          <select id="transport">
+            <option value="auto">Mașină</option>
+            <option value="bus">Autobuz</option>
+            <option value="bike">Bicicletă</option>
+            <option value="walk">Pietonal</option>
+          </select>
+        </div>
+
+        <button class="btn-planifica">Planifică</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 UrbanFlow | <a href="#">Termeni și condiții</a> | <a href="#">Politica de confidențialitate</a></p>
+  </footer>
+
+ 
+</body>
+</html>
