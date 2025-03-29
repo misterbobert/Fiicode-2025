@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Înregistrare - UrbanFlow</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .menu-toggle {
+      display: none;
+      background-color: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        position: relative;
+      }
+
+      nav ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        background-color: #2ecc71;
+        width: 100%;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        z-index: 1000;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      nav ul.active {
+        max-height: 200px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      nav ul li {
+        margin: 0.5rem 1rem;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER: Meniu sus -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>UrbanFlow</h1>
+      </div>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+      <nav>
+        <ul id="navList">
+          <li><a href="index.php">Acasă</a></li>
+          <li><a href="#">Rute</a></li>
+          <li><a href="#">Contact</a></li>
+          <?php if (isset($_SESSION['email'])): ?>
+            <li><a href="account.php">Contul Meu</a></li>
+          <?php else: ?>
+            <li><a href="register.html">Înregistrează-te</a></li>
+          <?php endif; ?>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN: Form de înregistrare în card -->
+  <main>
+    <div class="wide-card" style="justify-content: center; align-items: center;">
+      <div class="form-container">
+        <h2>Înregistrare Cont Nou</h2>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="exemplu@email.com">
+          </div>
+          <div class="form-group">
+            <label for="username">Nume utilizator</label>
+            <input type="text" id="username" name="username" required placeholder="Alege un utilizator">
+          </div>
+          <div class="form-group">
+            <label for="password">Parolă</label>
+            <input type="password" id="password" name="password" required placeholder="Introdu parola">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmă parola</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Reintrodu parola">
+          </div>
+          <button class="btn-planifica" type="submit">Înregistrează-te</button>
+        </form>
+        <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #333;">
+        <p style="text-align: center;">AI DEJA CONT? <a href="login.html">Intra în cont!</a></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 UrbanFlow | <a href="#">Termeni și condiții</a> | <a href="#">Politica de confidențialitate</a></p>
+  </footer>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Parolele nu coincid. Te rugăm să le verifici.");
+        return;
+      }
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      fetch("register.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert(result.trim());
+      })
+      .catch(error => {
+        alert("A apărut o eroare la trimiterea datelor.");
+        console.error("Eroare:", error);
+      });
+    });
+  </script>
+</body>
+</html>
