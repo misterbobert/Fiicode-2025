@@ -66,7 +66,7 @@ main {
 .wide-card {
   background-color: #fff;
   width: 100%;
-  max-width: 900px; /* ajustează după preferință */
+  max-width: 1200px; /* ajustează după preferință */
   min-height: 500px; /* ca să fie suficient spațiu pentru hartă */
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -183,4 +183,126 @@ footer a:hover {
 
 .autocomplete-suggestion:hover {
   background-color: #f2f2f2;
+}
+.menu-toggle {
+  display: none;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.toggle-form-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  nav {
+    width: 100%;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #2ecc71;
+    width: 100%;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+
+  nav ul.active {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  nav ul li {
+    margin: 0.5rem 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .wide-card {
+    display: block !important;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .form-container {
+    position: fixed;
+    top: 100px;
+    right: -100%;
+    width: 80%;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease;
+    z-index: 999;
+    max-height: 80%;
+    overflow-y: auto;
+    border-radius: 10px;
+  }
+
+  .form-container.active {
+    right: 10px;
+  }
+
+  .toggle-form-btn {
+    display: flex;
+    position: fixed;
+    top: 105px;
+    right: 10px;
+    z-index: 1000;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-form-btn span {
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+
+  .form-container.active ~ .toggle-form-btn span {
+    transform: rotate(180deg);
+  }
+
+  #mapid {
+    height: calc(100vh - 60px);
+    width: 100vw;
+    z-index: 1;
+  }
+}
+
+#mapid {
+  height: 500px;
+  width: 100%;
 }

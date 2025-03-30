@@ -5,155 +5,109 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UrbanFlow</title>
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    .menu-toggle {
-      display: none;
-      background-color: transparent;
-      border: none;
-      font-size: 1.5rem;
-      color: #fff;
-      cursor: pointer;
-      z-index: 1001;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
     }
 
-    .toggle-form-btn {
-      display: none;
+    .wide-card {
+      display: flex;
+      max-width: 1200px;
+      margin: 2rem auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      align-items: stretch;
     }
 
-    @media (max-width: 768px) {
-      .nav-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      nav {
-        width: 100%;
-      }
-
-      nav ul {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        background-color: #2ecc71;
-        width: 100%;
-        position: absolute;
-        top: calc(100% + 4px);
-        left: 0;
-        z-index: 1000;
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-      }
-
-      nav ul.active {
-        max-height: 200px;
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      nav ul li {
-        margin: 0.5rem 1rem;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .wide-card {
-        display: block !important;
-        padding: 0;
-        background: none;
-        box-shadow: none;
-      }
-
-      .form-container {
-        position: fixed;
-        top: 100px;
-        right: -100%;
-        width: 80%;
-        background: white;
-        padding: 1rem;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        transition: right 0.3s ease;
-        z-index: 999;
-        max-height: 80%;
-        overflow-y: auto;
-        border-radius: 10px;
-      }
-
-      .form-container.active {
-        right: 10px;
-      }
-
-      .toggle-form-btn {
-        display: flex;
-        position: fixed;
-        top: 105px;
-        right: 10px;
-        z-index: 1000;
-        background-color: #2ecc71;
-        color: white;
-        border: none;
-        font-size: 1.5rem;
-        padding: 0.5rem 0.7rem;
-        cursor: pointer;
-        border-radius: 50%;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .toggle-form-btn span {
-        display: inline-block;
-        transform: rotate(0deg);
-        transition: transform 0.3s ease;
-      }
-
-      .form-container.active ~ .toggle-form-btn span {
-        transform: rotate(180deg);
-      }
-
-      #mapid {
-        height: calc(100vh - 60px);
-        width: 100vw;
-        z-index: 1;
-      }
+    .map-container {
+      flex: 3;
+      height: auto;
     }
 
     #mapid {
-      height: 500px;
+      height: 100%;
+      min-height: 500px;
       width: 100%;
+    }
+
+    .form-container {
+      flex: 2;
+      padding: 2rem;
+      background-color: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-container h2 {
+      color: #2ecc71;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .btn-planifica {
+      background-color: #2ecc71;
+      color: white;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-planifica:hover {
+      background-color: #27ae60;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background-color: #f4f4f4;
+      margin-top: 2rem;
+    }
+
+    footer a {
+      color: #2ecc71;
+      text-decoration: none;
+      margin: 0 0.5rem;
     }
   </style>
 </head>
 <body>
-  <!-- HEADER: Meniu sus -->
-  <header class="top-nav">
-    <div class="nav-container">
-      <div class="logo">
-        <h1>UrbanFlow</h1>
-      </div>
-      <button class="menu-toggle" id="menuToggle">☰</button>
-      <nav>
-        <ul id="navList">
-          <li><a href="index.php">Acasă</a></li>
-          <li><a href="#">Rute</a></li>
-          <li><a href="#">Contact</a></li>
-          <?php if (isset($_SESSION['email'])): ?>
-            <li><a href="account.php">Contul Meu</a></li>
-          <?php else: ?>
-            <li><a href="register.html">Înregistrează-te</a></li>
-          <?php endif; ?>
-        </ul>
-      </nav>
-    </div>
-  </header>
+
+  <!-- NAVBAR -->
+  <div id="navbar-container"></div>
+  <script>
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-container").innerHTML = data;
+      });
+  </script>
 
   <!-- MAIN -->
   <main>
@@ -179,9 +133,8 @@
             <option value="walk">Pietonal</option>
           </select>
         </div>
-        <button class="btn-planifica">Planifică</button>
+        <button class="btn-planifica" onclick="planificaRuta()">Planifică</button>
       </div>
-      <button class="toggle-form-btn" onclick="toggleForm()"><span>➤</span></button>
     </div>
   </main>
 
@@ -190,23 +143,35 @@
     <p>&copy; 2025 UrbanFlow | <a href="#">Termeni și condiții</a> | <a href="#">Politica de confidențialitate</a></p>
   </footer>
 
-  <!-- Leaflet JS (pentru harta) -->
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // inițializare hartă dacă există elementul cu id mapid
-    if (document.getElementById('mapid')) {
-      const map = L.map('mapid').setView([47.1585, 27.6014], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-    }
+    const map = L.map('mapid').setView([47.1585, 27.6014], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-    document.getElementById("menuToggle").addEventListener("click", function () {
-      document.getElementById("navList").classList.toggle("active");
-    });
+    function planificaRuta() {
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+      const transport = document.getElementById("transport").value;
 
-    function toggleForm() {
-      document.getElementById("planForm").classList.toggle("active");
+      if (!start || !end) {
+        alert("Te rugăm să completezi ambele locații.");
+        return;
+      }
+
+      if (transport === "public") {
+        // Coord. test: Piața Unirii → Palas (modificabil ulterior)
+        const startLat = 47.164129;
+        const startLng = 27.582639;
+        const endLat = 47.158481;
+        const endLng = 27.601800;
+
+        window.location.href = `afiseaza_traseu.php?startLat=${startLat}&startLng=${startLng}&endLat=${endLat}&endLng=${endLng}`;
+      } else {
+        alert("Funcția pentru acest mijloc de transport nu este implementată momentan.");
+      }
     }
   </script>
 </body>

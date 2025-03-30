@@ -7,21 +7,15 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- HEADER: Meniu sus -->
-  <header class="top-nav">
-    <div class="nav-container">
-      <div class="logo">
-        <h1>UrbanFlow</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Acasă</a></li>
-          <li><a href="#">Rute</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <div id="navbar-container"></div>
+  <script>
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-container").innerHTML = data;
+      });
+  </script>
+  
 
   <!-- MAIN: Form de autentificare în card -->
   <main>

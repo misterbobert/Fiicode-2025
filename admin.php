@@ -10,20 +10,25 @@
   <div class="login-container">
     <div class="login-card">
       <h2>Autentificare Administrație Locală</h2>
-      <form id="loginForm">
+
+      <form method="POST" action="admin-login.php">
         <div class="form-group">
           <label for="username">Utilizator</label>
-          <input type="text" id="username" placeholder="Introdu utilizatorul">
+          <input type="text" id="username" name="username" placeholder="Introdu utilizatorul" required>
         </div>
+
         <div class="form-group">
           <label for="password">Parolă</label>
-          <input type="password" id="password" placeholder="Introdu parola">
+          <input type="password" id="password" name="password" placeholder="Introdu parola" required>
         </div>
+
         <button type="submit" id="loginButton">Logare</button>
       </form>
-      <p id="errorMsg" class="error-msg"></p>
+
+      <?php if (isset($_GET['error'])): ?>
+        <p class="error-msg">Utilizator sau parolă greșită.</p>
+      <?php endif; ?>
     </div>
   </div>
-  <script src="admin.js"></script>
 </body>
 </html>
