@@ -10,23 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$id   = isset($_POST['id'])   ? intval($_POST['id']) : 0;
 $nume = isset($_POST['nume']) ? trim($_POST['nume']) : '';
 $lat  = isset($_POST['lat'])  ? floatval($_POST['lat']) : 0;
 $lng  = isset($_POST['lng'])  ? floatval($_POST['lng']) : 0;
 
-if ($nume === '' || ($lat == 0 && $lng == 0)) {
+if ($id <= 0 || $nume === '' || ($lat == 0 && $lng == 0)) {
     echo json_encode(['success' => false, 'error' => 'Missing required fields.']);
     exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO stations (nume, lat, lng) VALUES (?, ?, ?)");
+$stmt = $conn->prepare("UPDATE stations SET nume = ?, lat = ?, lng = ? WHERE id = ?");
 if (!$stmt) {
     echo json_encode(['success' => false, 'error' => $conn->error]);
     exit;
 }
-$stmt->bind_param("sdd", $nume, $lat, $lng);
+$stmt->bind_param("sddi", $nume, $lat, $lng, $id);
 if ($stmt->execute()) {
-    $id = $stmt->insert_id;
     echo json_encode([
         'success' => true,
         'station' => [

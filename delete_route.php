@@ -1,26 +1,32 @@
 <?php
-session_start();
-include 'db.php';  // Conectează-te la baza de date
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+header('Content-Type: application/json');
 
-// Verifică dacă utilizatorul este logat ca admin
-if (!isset($_SESSION['admin'])) {
-    header("Location: admin.php");
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['success' => false, 'error' => 'Invalid request method (POST).']);
     exit;
 }
 
-// Șterge ruta din baza de date
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "DELETE FROM rute WHERE id='$id'";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Rută ștearsă cu succes!";
-        header("Location: dashboard.php");
-        exit;
-    } else {
-        echo "Eroare: " . $conn->error;
-    }
+$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+if ($id <= 0) {
+    echo json_encode(['success' => false, 'error' => 'Invalid route id.']);
+    exit;
 }
 
-$conn->close();  // Închide conexiunea
+$stmt = $conn->prepare("DELETE FROM rute WHERE id = ?");
+if (!$stmt) {
+    echo json_encode(['success' => false, 'error' => $conn->error]);
+    exit;
+}
+$stmt->bind_param("i", $id);
+if ($stmt->execute()) {
+    echo json_encode(['success' => true]);
+} else {
+    echo json_encode(['success' => false, 'error' => $stmt->error]);
+}
+$stmt->close();
+$conn->close();
 ?>

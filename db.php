@@ -1,14 +1,16 @@
 <?php
-$servername = "localhost";
-$username = "root";  // Modifică cu utilizatorul tău MySQL
-$password = "";      // Modifică cu parola ta MySQL
-$dbname = "transport_db";  // Numele bazei de date
+// Activăm afișarea erorilor – foarte important pentru debug
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Creare conexiune
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "urbanflow"; // Baza de date dorită
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verifică conexiunea
 if ($conn->connect_error) {
-    die("Conexiunea a eșuat: " . $conn->connect_error);
+    die("Eroare conexiune DB: " . $conn->connect_error);
 }
 ?>

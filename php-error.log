@@ -1,0 +1,10 @@
+[04-Apr-2025 23:22:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'tip_transport' in 'field list' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:44
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(44): mysqli->prepare('INSERT INTO sta...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 44
+[04-Apr-2025 23:22:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'tip_transport' in 'field list' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:44
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(44): mysqli->prepare('INSERT INTO sta...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 44
