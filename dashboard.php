@@ -8,6 +8,27 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/php-error.log');
 
 session_start();
+// Obține numele orașului din sesiune și setează numele tabelelor personalizate
+$oras = '';
+$tabela_statii = 'stations';
+$tabela_rute   = 'rute';
+
+if (isset($_SESSION['admin_institution']) &&
+    preg_match('/Primăria\s+(.*)/i', $_SESSION['admin_institution'], $m)) {
+    
+    $oras = preg_replace('/[^a-zA-Z0-9]/', '_', $m[1]); // curăță numele
+    $tabela_statii = "statii_" . $oras;
+    $tabela_rute   = "rute_" . $oras;
+}
+if (!$oras) {
+  die("Eroare: Instituție invalidă. Acces interzis.");
+}
+
+
+// SETARE NUME INSTITUȚIE PENTRU TEST (doar temporar)
+if (!isset($_SESSION['admin_institution'])) {
+  $_SESSION['admin_institution'] = 'Primăria Pașcani';
+}
 
 // Parametrii MySQL
 $servername = "localhost";
@@ -21,177 +42,266 @@ if ($conn->connect_error) {
     die("Eroare la conectarea la BD: " . $conn->connect_error);
 }
 
+
+// Extragere nume oraș din instituție (ex: "Primăria Pașcani" => "Pascani")
+$oras = '';
+if (isset($_SESSION['admin_institution'])) {
+    $pattern = '/Primăria\s+(.*)/i'; // regex pentru "Primăria X"
+    if (preg_match($pattern, $_SESSION['admin_institution'], $matches)) {
+        $oras = preg_replace('/[^a-zA-Z0-9]/', '_', $matches[1]); // curățare pentru nume tabel
+    }
+}
+
+if ($oras) {
+    $tabela_rute   = "rute_" . $oras;
+    $tabela_statii = "statii_" . $oras;
+
+    // Verificăm dacă există tabelul rute_ORAS
+    $res1 = $conn->query("SHOW TABLES LIKE '$tabela_rute'");
+    if ($res1->num_rows === 0) {
+        $conn->query("CREATE TABLE `$tabela_rute` LIKE `rute`");
+        $conn->query("INSERT INTO `$tabela_rute` SELECT * FROM `rute`");
+    }
+
+    // Verificăm dacă există tabelul statii_ORAS
+    $res2 = $conn->query("SHOW TABLES LIKE '$tabela_statii'");
+    if ($res2->num_rows === 0) {
+        $conn->query("CREATE TABLE `$tabela_statii` LIKE `stations`");
+        $conn->query("INSERT INTO `$tabela_statii` SELECT * FROM `stations`");
+    }
+}
+
+/************************************************************/
+/*               LOGICA AJAX (add/edit/delete)              */
+/************************************************************/
 /************************************************************/
 /*               LOGICA AJAX (add/edit/delete)              */
 /************************************************************/
 if (isset($_GET['ajax'])) {
-    header('Content-Type: application/json');
+  header('Content-Type: application/json');
 
-    // Preia acțiunea
-    $action = isset($_POST['action']) ? $_POST['action'] : '';
+  // Obține numele orașului din instituție
+  $oras = '';
+  $tabela_statii = 'stations'; // fallback
 
-    // 1) Adăugare stație
-    if ($action === 'add_station') {
-        $nume = trim($_POST['nume'] ?? '');
-        $lat  = floatval($_POST['lat'] ?? 0);
-        $lng  = floatval($_POST['lng'] ?? 0);
-        $tip_transport = trim($_POST['tip_transport'] ?? '');
+  if (isset($_SESSION['admin_institution'])) {
+      if (preg_match('/Primăria\s+(.*)/i', $_SESSION['admin_institution'], $m)) {
+          $oras = preg_replace('/[^a-zA-Z0-9]/', '_', $m[1]);
+          $tabela_statii = "statii_" . $oras;
+      }
+  }
 
-        if ($nume === '' || ($lat == 0 && $lng == 0) || $tip_transport === '') {
-            echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt obligatorii.']);
-            exit;
-        }
-        $stmt = $conn->prepare("INSERT INTO stations (nume, lat, lng, tip_transport) VALUES (?, ?, ?, ?)");
-        if (!$stmt) {
-            echo json_encode(['success' => false, 'error' => $conn->error]);
-            exit;
-        }
-        $stmt->bind_param("sdds", $nume, $lat, $lng, $tip_transport);
-        if ($stmt->execute()) {
-            $id = $stmt->insert_id;
-            echo json_encode([
-                'success' => true,
-                'station' => [
-                    'id' => $id,
-                    'nume' => $nume,
-                    'lat'  => $lat,
-                    'lng'  => $lng,
-                    'tip_transport' => $tip_transport
-                ]
-            ]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
-        }
-        $stmt->close();
-        exit;
-    }
+  // Creează tabela dacă nu există (opțional)
+  $conn->query("CREATE TABLE IF NOT EXISTS `$tabela_statii` LIKE `stations`");
 
-    // 2) Editare stație
-    if ($action === 'edit_station') {
-        $id   = intval($_POST['id'] ?? 0);
-        $nume = trim($_POST['nume'] ?? '');
-        $lat  = floatval($_POST['lat'] ?? 0);
-        $lng  = floatval($_POST['lng'] ?? 0);
-        $tip_transport = trim($_POST['tip_transport'] ?? '');
+  $action = $_POST['action'] ?? '';
 
-        if ($id <= 0 || $nume === '' || ($lat == 0 && $lng == 0) || $tip_transport === '') {
-            echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt obligatorii.']);
-            exit;
-        }
-        $stmt = $conn->prepare("UPDATE stations SET nume = ?, lat = ?, lng = ?, tip_transport = ? WHERE id = ?");
-        if (!$stmt) {
-            echo json_encode(['success' => false, 'error' => $conn->error]);
-            exit;
-        }
-        $stmt->bind_param("sddsi", $nume, $lat, $lng, $tip_transport, $id);
-        if ($stmt->execute()) {
-            echo json_encode([
-                'success' => true,
-                'station' => [
-                    'id'   => $id,
-                    'nume' => $nume,
-                    'lat'  => $lat,
-                    'lng'  => $lng,
-                    'tip_transport' => $tip_transport
-                ]
-            ]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
-        }
-        $stmt->close();
-        exit;
-    }
+  // Adăugare stație
+  if ($action === 'add_station') {
+      $nume = trim($_POST['nume'] ?? '');
+      $lat  = floatval($_POST['lat'] ?? 0);
+      $lng  = floatval($_POST['lng'] ?? 0);
+      $tip_transport = trim($_POST['tip_transport'] ?? '');
 
-    // 3) Ștergere stație
-    if ($action === 'delete_station') {
-        $id = intval($_POST['id'] ?? 0);
-        if ($id <= 0) {
-            echo json_encode(['success' => false, 'error' => 'ID stație invalid.']);
-            exit;
-        }
-        $stmt = $conn->prepare("DELETE FROM stations WHERE id = ?");
-        if (!$stmt) {
-            echo json_encode(['success' => false, 'error' => $conn->error]);
-            exit;
-        }
-        $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
-        }
-        $stmt->close();
-        exit;
-    }
+      if ($nume === '' || ($lat == 0 && $lng == 0) || $tip_transport === '') {
+          echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt obligatorii.']);
+          exit;
+      }
 
-    // 4) Obține stația pentru editare
-    if ($action === 'get_station') {
-        $id = intval($_POST['id'] ?? 0);
-        if ($id <= 0) {
-            echo json_encode(['success' => false, 'error' => 'ID stație invalid.']);
-            exit;
-        }
-        $stmt = $conn->prepare("SELECT id, nume, lat, lng, tip_transport FROM stations WHERE id = ?");
-        if (!$stmt) {
-            echo json_encode(['success' => false, 'error' => $conn->error]);
-            exit;
-        }
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $st = $result->fetch_assoc();
-            echo json_encode($st);
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Stația nu a fost găsită.']);
-        }
-        $stmt->close();
-        exit;
-    }
+      $stmt = $conn->prepare("INSERT INTO `$tabela_statii` (nume, lat, lng, tip_transport) VALUES (?, ?, ?, ?)");
+      if (!$stmt) {
+          echo json_encode(['success' => false, 'error' => $conn->error]);
+          exit;
+      }
+      $stmt->bind_param("sdds", $nume, $lat, $lng, $tip_transport);
+      if ($stmt->execute()) {
+          $id = $stmt->insert_id;
+          echo json_encode([
+              'success' => true,
+              'station' => compact('id', 'nume', 'lat', 'lng', 'tip_transport')
+          ]);
+      } else {
+          echo json_encode(['success' => false, 'error' => $stmt->error]);
+      }
+      $stmt->close();
+      exit;
+  }
 
-    // 5) Ștergere rută (demonstrativ)
-    if ($action === 'delete_route') {
-        $routeId = intval($_POST['id'] ?? 0);
-        if ($routeId <= 0) {
-            echo json_encode(['success' => false, 'error' => 'ID rută invalid.']);
-            exit;
-        }
-        $stmt = $conn->prepare("DELETE FROM rute WHERE id = ?");
-        if (!$stmt) {
-            echo json_encode(['success' => false, 'error' => $conn->error]);
-            exit;
-        }
-        $stmt->bind_param("i", $routeId);
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => $stmt->error]);
-        }
-        $stmt->close();
-        exit;
-    }
+  // Editare stație
+  if ($action === 'edit_station') {
+      $id   = intval($_POST['id'] ?? 0);
+      $nume = trim($_POST['nume'] ?? '');
+      $lat  = floatval($_POST['lat'] ?? 0);
+      $lng  = floatval($_POST['lng'] ?? 0);
+      $tip_transport = trim($_POST['tip_transport'] ?? '');
 
-    // Acțiune necunoscută:
-    echo json_encode(['success' => false, 'error' => 'Acțiune necunoscută.']);
-    exit;
+      if ($id <= 0 || $nume === '' || ($lat == 0 && $lng == 0) || $tip_transport === '') {
+          echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt obligatorii.']);
+          exit;
+      }
+
+      $stmt = $conn->prepare("UPDATE `$tabela_statii` SET nume = ?, lat = ?, lng = ?, tip_transport = ? WHERE id = ?");
+      if (!$stmt) {
+          echo json_encode(['success' => false, 'error' => $conn->error]);
+          exit;
+      }
+      $stmt->bind_param("sddsi", $nume, $lat, $lng, $tip_transport, $id);
+      if ($stmt->execute()) {
+          echo json_encode([
+              'success' => true,
+              'station' => compact('id', 'nume', 'lat', 'lng', 'tip_transport')
+          ]);
+      } else {
+          echo json_encode(['success' => false, 'error' => $stmt->error]);
+      }
+      $stmt->close();
+      exit;
+  }
+
+  // Ștergere stație
+  if ($action === 'delete_station') {
+      $id = intval($_POST['id'] ?? 0);
+      if ($id <= 0) {
+          echo json_encode(['success' => false, 'error' => 'ID stație invalid.']);
+          exit;
+      }
+
+      $stmt = $conn->prepare("DELETE FROM `$tabela_statii` WHERE id = ?");
+      if (!$stmt) {
+          echo json_encode(['success' => false, 'error' => $conn->error]);
+          exit;
+      }
+      $stmt->bind_param("i", $id);
+      echo json_encode(['success' => $stmt->execute()]);
+      $stmt->close();
+      exit;
+  }
+
+  // Obține stație pentru editare
+  if ($action === 'get_station') {
+      $id = intval($_POST['id'] ?? 0);
+      if ($id <= 0) {
+          echo json_encode(['success' => false, 'error' => 'ID stație invalid.']);
+          exit;
+      }
+
+      $stmt = $conn->prepare("SELECT id, nume, lat, lng, tip_transport FROM `$tabela_statii` WHERE id = ?");
+      if (!$stmt) {
+          echo json_encode(['success' => false, 'error' => $conn->error]);
+          exit;
+      }
+      $stmt->bind_param("i", $id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      if ($result->num_rows > 0) {
+          echo json_encode($result->fetch_assoc());
+      } else {
+          echo json_encode(['success' => false, 'error' => 'Stația nu a fost găsită.']);
+      }
+      $stmt->close();
+      exit;
+  }// Obține rută pentru editare
+if ($action === 'get_route') {
+  $id = intval($_POST['id'] ?? 0);
+  if ($id <= 0) {
+      echo json_encode(['success' => false, 'error' => 'ID rută invalid.']);
+      exit;
+  }
+
+  $stmt = $conn->prepare("SELECT id, nr_transport, id_vehicul, statii FROM `$tabela_rute` WHERE id = ?");
+  if (!$stmt) {
+      echo json_encode(['success' => false, 'error' => $conn->error]);
+      exit;
+  }
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  if ($result->num_rows > 0) {
+      echo json_encode($result->fetch_assoc());
+  } else {
+      echo json_encode(['success' => false, 'error' => 'Ruta nu a fost găsită.']);
+  }
+  $stmt->close();
+  exit;
 }
+
+// Modificare rută
+if ($action === 'edit_route') {
+  $id = intval($_POST['id'] ?? 0);
+  $nr_transport = trim($_POST['nr_transport'] ?? '');
+  $id_vehicul   = trim($_POST['id_vehicul'] ?? '');
+  $statii       = trim($_POST['statii'] ?? '');
+
+  if ($id <= 0 || $nr_transport === '' || $id_vehicul === '' || $statii === '') {
+      echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt necesare.']);
+      exit;
+  }
+
+  $stmt = $conn->prepare("UPDATE `$tabela_rute` SET nr_transport = ?, id_vehicul = ?, statii = ? WHERE id = ?");
+  if (!$stmt) {
+      echo json_encode(['success' => false, 'error' => $conn->error]);
+      exit;
+  }
+  $stmt->bind_param("sssi", $nr_transport, $id_vehicul, $statii, $id);
+  if ($stmt->execute()) {
+      echo json_encode([
+          'success' => true,
+          'route' => compact('id', 'nr_transport', 'id_vehicul', 'statii')
+      ]);
+  } else {
+      echo json_encode(['success' => false, 'error' => $stmt->error]);
+  }
+  $stmt->close();
+  exit;
+}
+
+// Adăugare rută
+if ($action === 'add_route') {
+  $nr_transport = trim($_POST['nr_transport'] ?? '');
+  $id_vehicul   = trim($_POST['id_vehicul'] ?? '');
+  $statii       = trim($_POST['statii'] ?? '');
+
+  if ($nr_transport === '' || $id_vehicul === '' || $statii === '') {
+      echo json_encode(['success' => false, 'error' => 'Toate câmpurile sunt necesare.']);
+      exit;
+  }
+
+  $stmt = $conn->prepare("INSERT INTO `$tabela_rute` (nr_transport, id_vehicul, statii) VALUES (?, ?, ?)");
+  if (!$stmt) {
+      echo json_encode(['success' => false, 'error' => $conn->error]);
+      exit;
+  }
+
+  $stmt->bind_param("sss", $nr_transport, $id_vehicul, $statii);
+  if ($stmt->execute()) {
+      $id = $stmt->insert_id;
+      echo json_encode([
+          'success' => true,
+          'route' => compact('id', 'nr_transport', 'id_vehicul', 'statii')
+      ]);
+  } else {
+      echo json_encode(['success' => false, 'error' => $stmt->error]);
+  }
+  $stmt->close();
+  exit;
+}
+
+
+  // Alte acțiuni...
+  echo json_encode(['success' => false, 'error' => 'Acțiune necunoscută.']);
+  exit;
+}
+
 
 /************************************************************/
 /*               AFIȘARE PAGINĂ (fără AJAX)                 */
 /************************************************************/
-// (Opțional) Verificare sesiune admin, dacă este necesar
-// if (!isset($_SESSION['admin'])) {
-//    header("Location: admin.php");
-//    exit;
-// }
+$sqlRoutes = "SELECT * FROM `$tabela_rute`";
 
-// Obține rutele
-$sqlRoutes = "SELECT * FROM rute";
 $resRoutes = $conn->query($sqlRoutes);
 $routes = ($resRoutes && $resRoutes->num_rows > 0) ? $resRoutes->fetch_all(MYSQLI_ASSOC) : [];
 
-// Obține stațiile
-$sqlStations = "SELECT * FROM stations";
+$sqlStations = "SELECT * FROM `$tabela_statii`";
 $resStations = $conn->query($sqlStations);
 $stations = [];
 if ($resStations && $resStations->num_rows > 0) {
@@ -199,7 +309,6 @@ if ($resStations && $resStations->num_rows > 0) {
         $stations[] = $s;
     }
 }
-
 $conn->close();
 ?>
 <!DOCTYPE html>
@@ -262,6 +371,18 @@ $conn->close();
     .edit-station-btn:hover { background-color: #2980b9; }
     .delete-station-btn { background-color: #e74c3c; color: #fff; }
     .delete-station-btn:hover { background-color: #c0392b; }
+
+    .institution-badge {
+        margin: 1rem 0;
+        font-size: 1.1rem;
+        font-weight: bold;
+        background-color: #c8e6c9;
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        color: #2e7d32;
+        display: inline-block;
+      }
   </style>
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -276,6 +397,13 @@ $conn->close();
 </form>
 
 <div class="section-wrapper">
+<?php if (isset($_SESSION['admin_institution'])): ?>
+  <div style="display: flex; justify-content: center; margin-top: 1rem;">
+    <div class="institution-badge">
+      👤 Instituție: <?= htmlspecialchars($_SESSION['admin_institution']) ?>
+    </div>
+  </div>
+<?php endif; ?>
 
   <!-- Harta Publică -->
   <div class="section">
@@ -288,31 +416,43 @@ $conn->close();
     <h2>🚌 Management Rute</h2>
     <p>Listă de rute. Poți șterge sau modifica (demo).</p>
     <button class="add-route-btn" id="addRouteBtn">Adaugă Rută (demo)</button>
+    <form id="addRouteForm" style="display:none; margin-top: 1rem;">
+  <label for="routeNr">Nr. Transport:</label>
+  <input type="text" id="routeNr" required>
+
+  <label for="vehicleId">ID Vehicul:</label>
+  <input type="text" id="vehicleId" required>
+
+  <label for="routeStations">Stații (separate prin virgulă):</label>
+  <input type="text" id="routeStations" required>
+
+  <button type="submit" class="confirm-btn">Salvează Ruta</button>
+</form>
 
     <table>
-      <thead>
-        <tr>
-          <th>Nr. Transport</th>
-          <th>Stații</th>
-          <th>Acțiuni</th>
-        </tr>
-      </thead>
-      <tbody id="routesTableBody">
-        <?php if (empty($routes)): ?>
-        <tr><td colspan="3">Nu există rute.</td></tr>
-        <?php else: ?>
-          <?php foreach ($routes as $r): ?>
-          <tr data-id="<?= $r['id'] ?>">
-            <td><?= htmlspecialchars($r['nr_transport']) ?></td>
-            <td><?= htmlspecialchars($r['statii']) ?></td>
-            <td>
-              <button class="edit-btn" onclick="editRoute(<?= $r['id'] ?>)">Modifică</button>
-              <button class="delete-btn" onclick="deleteRoute(<?= $r['id'] ?>)">Șterge</button>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-        <?php endif; ?>
-      </tbody>
+    <thead>
+  <tr>
+    <th>Nr. Transport</th>
+    <th>ID Vehicul</th>
+    <th>Stații</th>
+    <th>Acțiuni</th>
+  </tr>
+</thead>
+<tbody id="routesTableBody">
+  <?php foreach ($routes as $r): ?>
+    <tr data-id="<?= $r['id'] ?>">
+      <td><?= htmlspecialchars($r['nr_transport']) ?></td>
+      <td><?= htmlspecialchars($r['id_vehicul']) ?></td>
+      <td><?= htmlspecialchars($r['statii']) ?></td>
+      <td><button class="edit-btn" onclick="editRoute(<?= $r['id'] ?>)">Modifică</button>
+<button class="delete-btn" onclick="deleteRoute(<?= $r['id'] ?>)">Șterge</button>
+<button class="edit-btn" onclick="viewRoute(<?= $r['id'] ?>)">Vizualizează</button>
+
+      </td>
+    </tr>
+  <?php endforeach; ?>
+</tbody>
+
     </table>
   </div>
 
@@ -369,6 +509,8 @@ $conn->close();
 </div>
 
 <script>
+  const stations = <?= json_encode($stations) ?>;
+
 // ============= HARTA PUBLICĂ =============
 var publicMap = L.map('publicMap').setView([47.25, 26.75], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -378,12 +520,68 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // ============= MANAGEMENT Rute ============
 document.getElementById('addRouteBtn').addEventListener('click', function() {
-  alert("Funcția de adăugare rută nu e implementată încă.");
+  document.getElementById('addRouteForm').style.display = 'block';
 });
 
+
 function editRoute(routeId) {
-  alert("Funcția de modificare rută nu e implementată. ID = " + routeId);
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "?ajax=1", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("action=get_route&id=" + encodeURIComponent(routeId));
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const resp = JSON.parse(xhr.responseText);
+      if (resp.id) {
+        document.getElementById('routeNr').value = resp.nr_transport;
+        document.getElementById('vehicleId').value = resp.id_vehicul;
+        document.getElementById('routeStations').value = resp.statii;
+        document.getElementById('addRouteForm').style.display = 'block';
+        document.getElementById('addRouteForm').setAttribute('data-id', resp.id);
+      } else {
+        alert("Eroare: " + (resp.error || "Ruta nu a fost găsită."));
+      }
+    }
+  };
 }
+let currentPolyline = null;
+
+function viewRoute(routeId) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "?ajax=1", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("action=get_route&id=" + encodeURIComponent(routeId));
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const resp = JSON.parse(xhr.responseText);
+      if (resp && resp.statii) {
+        const coordList = resp.statii.split(',').map(s => s.trim()).filter(Boolean);
+        const coordPairs = [];
+
+        for (let i = 0; i < coordList.length; i++) {
+          const stationName = coordList[i];
+          const match = stations.find(s => s.nume === stationName);
+          if (match) {
+            coordPairs.push([parseFloat(match.lat), parseFloat(match.lng)]);
+          }
+        }
+
+        if (currentPolyline) {
+          publicMap.removeLayer(currentPolyline);
+        }
+
+        currentPolyline = getRouteOnRoad(coordPairs);
+
+        publicMap.fitBounds(currentPolyline.getBounds());
+      } else {
+        alert("Ruta nu are stații valide sau nu a fost găsită.");
+      }
+    }
+  };
+}
+
 
 function deleteRoute(routeId) {
   if (!confirm("Sigur ștergi ruta cu ID " + routeId + "?")) return;
@@ -598,7 +796,108 @@ function deleteStation(stationId) {
       alert("Eroare HTTP la ștergere stație.");
     }
   };
+}document.getElementById('addRouteBtn').addEventListener('click', function() {
+  document.getElementById('addRouteForm').style.display = 'block';
+});
+document.getElementById('addRouteForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nr = document.getElementById('routeNr').value.trim();
+  const vehicul = document.getElementById('vehicleId').value.trim();
+  const statii = document.getElementById('routeStations').value.trim();
+
+  if (!nr || !vehicul || !statii) {
+    alert("Completează toate câmpurile!");
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+xhr.open("POST", "?ajax=1", true);
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+const routeId = document.getElementById('addRouteForm').getAttribute('data-id');
+const action = routeId ? 'edit_route' : 'add_route';
+
+let params = "action=" + action +
+             "&nr_transport=" + encodeURIComponent(nr) +
+             "&id_vehicul=" + encodeURIComponent(vehicul) +
+             "&statii=" + encodeURIComponent(statii);
+
+if (routeId) {
+  params += "&id=" + encodeURIComponent(routeId);
 }
+
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      const resp = JSON.parse(xhr.responseText);
+      if (resp.success) {
+        alert("Rută salvată!");
+        addRouteRow(resp.route);
+        document.getElementById('addRouteForm').reset();
+        document.getElementById('addRouteForm').style.display = 'none';
+      } else {
+        alert("Eroare: " + resp.error);
+      }if (routeId) {
+  alert("Rută actualizată!");
+  location.reload();
+}
+
+    }
+  };
+
+  xhr.send(params);
+});
+
+function getRouteOnRoad(coordPairs) {
+  const url = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+
+  const body = {
+    coordinates: coordPairs.map(pair => [pair[1], pair[0]]) // lng, lat
+  };
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': '5b3ce3597851110001cf6248d3f47cc712ed42bdbc3b848f8854acc6',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (currentPolyline) publicMap.removeLayer(currentPolyline);
+    currentPolyline = L.geoJSON(data, {
+      style: { color: 'blue', weight: 4 }
+    }).addTo(publicMap);
+    publicMap.fitBounds(currentPolyline.getBounds());
+  });
+}
+
+function addRouteRow(route) {
+  const tbody = document.getElementById('routesTableBody');
+  const tr = document.createElement('tr');
+
+  tr.setAttribute('data-id', route.id);
+  tr.innerHTML = `
+    <td>${route.nr_transport}</td>
+    <td>${route.id_vehicul}</td>
+    <td>${route.statii}</td>
+    <td>
+      <button class="edit-btn" onclick="editRoute(${route.id})">Modifică</button>
+      <button class="delete-btn" onclick="deleteRoute(${route.id})">Șterge</button>
+      <button class="edit-btn" onclick="viewRoute(${route.id})">Vizualizează</button>
+    </td>
+  `;
+
+  tbody.appendChild(tr);
+}
+
+
+document.getElementById('addRouteForm').reset();
+document.getElementById('addRouteForm').style.display = 'none';
+document.getElementById('addRouteForm').removeAttribute('data-id');
+
 </script>
 </body>
 </html>
