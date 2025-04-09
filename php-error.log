@@ -8,3 +8,23 @@ Stack trace:
 #0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(44): mysqli->prepare('INSERT INTO sta...')
 #1 {main}
   thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 44
+[09-Apr-2025 20:19:36 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Not unique table/alias: 'stations' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:84
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(84): mysqli->query('CREATE TABLE IF...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 84
+[09-Apr-2025 20:21:44 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Not unique table/alias: 'stations' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:84
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(84): mysqli->query('CREATE TABLE IF...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 84
+[09-Apr-2025 20:23:00 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Not unique table/alias: 'stations' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:84
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(84): mysqli->query('CREATE TABLE IF...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 84
+[09-Apr-2025 20:26:34 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Not unique table/alias: 'stations' in C:\xampp\htdocs\Fiicode-2025\dashboard.php:84
+Stack trace:
+#0 C:\xampp\htdocs\Fiicode-2025\dashboard.php(84): mysqli->query('CREATE TABLE IF...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fiicode-2025\dashboard.php on line 84
