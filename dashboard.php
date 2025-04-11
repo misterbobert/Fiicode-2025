@@ -834,6 +834,83 @@ $conn->close();
       })
       .catch(error => console.error('Eroare la fetch get_route:', error));
     }
+
+    // Variabila globală pentru a reține stratul traseului afișat pe hartă
+let currentRouteLayer = null;
+
+/**
+ * getRouteOnRoad - folosește OpenRouteService pentru a obține geometria traseului pe străzi.
+ * @param {Array} coordPairs - Array de obiecte { lat: <number>, lng: <number> }
+ */
+function getRouteOnRoad(coordPairs) {
+  const url = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+  // Formatăm coordonatele așa cum așteaptă ORS: [lng, lat]
+  const body = {
+    coordinates: coordPairs.map(pair => [pair.lng, pair.lat])
+  };
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': '5b3ce3597851110001cf6248d3f47cc712ed42bdbc3b848f8854acc6', // înlocuiește cu cheia ta de API validă
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Dacă există deja un traseu afișat, îl ștergem
+    if (currentRouteLayer) {
+      publicMap.removeLayer(currentRouteLayer);
+    }
+    // Adăugăm noul traseu, stilizat cu o linie albastră
+    currentRouteLayer = L.geoJSON(data, {
+      style: { color: 'blue', weight: 5 }
+    }).addTo(publicMap);
+    publicMap.fitBounds(currentRouteLayer.getBounds());
+  })
+  .catch(error => console.error("Routing API error:", error));
+}
+
+/**
+ * viewRoute - preia detaliile unei rute prin AJAX și trasează ruta reală
+ * folosind getRouteOnRoad.
+ */
+function viewRoute(routeId) {
+  const formData = new URLSearchParams();
+  formData.append('action', 'get_route');
+  formData.append('id', routeId);
+
+  fetch('dashboard.php?ajax=1', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData.toString()
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Răspuns get_route:", data);
+    if (data.success && data.route) {
+      // data.route.statii trebuie să fie un șir de ID-uri separate prin virgulă (ex: "3,5,8")
+      let stationIds = data.route.statii.split(",").map(idStr => idStr.trim()).filter(idStr => idStr !== "");
+      let routeCoordPairs = [];
+      stationIds.forEach(function(idStr) {
+        let st = stations.find(s => parseInt(s.id) === parseInt(idStr));
+        if (st) {
+          routeCoordPairs.push({ lat: parseFloat(st.lat), lng: parseFloat(st.lng) });
+        }
+      });
+      if (routeCoordPairs.length > 1) {
+        getRouteOnRoad(routeCoordPairs);
+      } else {
+        alert("Nu sunt suficiente stații pentru a trasa ruta.");
+      }
+    } else {
+      alert("Eroare la vizualizarea rutei: " + (data.error || "Eroare necunoscută."));
+    }
+  })
+  .catch(error => console.error("Eroare la viewRoute:", error));
+}
+
   </script>
   <script src="dashboard.js"></script>
 </body>
