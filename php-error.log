@@ -1213,3 +1213,332 @@ Stack trace:
 )
 
 [11-Apr-2025 19:05:47 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 19:21:10 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 19:21:10 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 19:21:10 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 20:57:02 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 20:57:02 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 20:57:02 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:06:06 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:06:06 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:06:06 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:03 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:03 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:03 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:32 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:32 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:32 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:41 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:41 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:41 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:41 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 18
+)
+
+[13-Apr-2025 21:50:41 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:50:42 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:42 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:42 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:42 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 19
+)
+
+[13-Apr-2025 21:50:42 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:50:56 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:56 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:56 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:56 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 20
+)
+
+[13-Apr-2025 21:50:56 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:50:58 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:50:58 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:50:58 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:50:58 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_station
+    [nume] => Statie
+    [lat] => 47.16623016286315
+    [lng] => 27.577271461486816
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:50:58 Europe/Berlin] Parametrul action primit: add_station
+[13-Apr-2025 21:51:00 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:00 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:00 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:10 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:10 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:10 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:10 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_station
+    [nume] => Statie2
+    [lat] => 45.75
+    [lng] => 27.95
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:51:10 Europe/Berlin] Parametrul action primit: add_station
+[13-Apr-2025 21:51:12 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:12 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:12 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:16 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:16 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:16 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:16 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_route
+    [id] => 6
+)
+
+[13-Apr-2025 21:51:16 Europe/Berlin] Parametrul action primit: delete_route
+[13-Apr-2025 21:51:28 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:28 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:28 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:28 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_route
+    [nr_transport] => 12
+    [id_vehicul] => 5412
+    [statii] => 21,22
+)
+
+[13-Apr-2025 21:51:28 Europe/Berlin] Parametrul action primit: add_route
+[13-Apr-2025 21:51:30 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:30 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:30 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:32 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:32 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:32 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:32 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_route
+    [id] => 7
+)
+
+[13-Apr-2025 21:51:32 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 21:51:42 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:42 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:42 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:42 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_route
+    [id] => 7
+)
+
+[13-Apr-2025 21:51:42 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 21:51:48 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:48 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:48 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:48 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_route
+    [id] => 7
+)
+
+[13-Apr-2025 21:51:48 Europe/Berlin] Parametrul action primit: delete_route
+[13-Apr-2025 21:51:50 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:50 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:50 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:50 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 22
+)
+
+[13-Apr-2025 21:51:50 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:51:52 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:51:52 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:51:52 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:51:52 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 21
+)
+
+[13-Apr-2025 21:51:52 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:57:30 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:57:30 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:57:30 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:57:52 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:57:52 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:57:52 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:57:52 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_station
+    [nume] => Statie
+    [lat] => 46.219187977108625
+    [lng] => 27.664217948913578
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:57:52 Europe/Berlin] Parametrul action primit: add_station
+[13-Apr-2025 21:57:54 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:57:54 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:57:54 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:07 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:07 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:07 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:07 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_station
+    [nume] => Statie2
+    [lat] => 46.23067803830137
+    [lng] => 27.666320800781254
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:58:07 Europe/Berlin] Parametrul action primit: add_station
+[13-Apr-2025 21:58:08 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:08 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:08 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:13 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:13 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:13 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:13 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_station
+    [id] => 23
+)
+
+[13-Apr-2025 21:58:13 Europe/Berlin] Parametrul action primit: get_station
+[13-Apr-2025 21:58:18 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:18 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:18 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:18 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => edit_station
+    [id] => 23
+    [nume] => Statie
+    [lat] => 46.223137029054534
+    [lng] => 27.660784721374515
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:58:18 Europe/Berlin] Parametrul action primit: edit_station
+[13-Apr-2025 21:58:21 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:21 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:21 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:21 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_station
+    [id] => 24
+)
+
+[13-Apr-2025 21:58:21 Europe/Berlin] Parametrul action primit: get_station
+[13-Apr-2025 21:58:26 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:26 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:26 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:26 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => edit_station
+    [id] => 24
+    [nume] => Statie2
+    [lat] => 46.2310045940384
+    [lng] => 27.672500610351566
+    [tip_transport] => autobuz
+)
+
+[13-Apr-2025 21:58:26 Europe/Berlin] Parametrul action primit: edit_station
+[13-Apr-2025 21:58:28 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:28 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:28 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:39 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:39 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:39 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:39 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => add_route
+    [nr_transport] => 512
+    [id_vehicul] => 156
+    [statii] => 23,24
+)
+
+[13-Apr-2025 21:58:39 Europe/Berlin] Parametrul action primit: add_route
+[13-Apr-2025 21:58:41 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:41 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:41 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:45 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:45 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:45 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:45 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_route
+    [id] => 8
+)
+
+[13-Apr-2025 21:58:45 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 21:58:52 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:52 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:52 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:52 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_route
+    [id] => 8
+)
+
+[13-Apr-2025 21:58:52 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 21:58:55 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:55 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:55 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:58:55 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => edit_route
+    [id] => 8
+    [nr_transport] => 51231
+    [id_vehicul] => 11256
+    [statii] => 23,24
+)
+
+[13-Apr-2025 21:58:55 Europe/Berlin] Parametrul action primit: edit_route
+[13-Apr-2025 21:58:57 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:58:57 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:58:57 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:59:00 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:59:00 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:59:00 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:59:00 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => get_route
+    [id] => 8
+)
+
+[13-Apr-2025 21:59:00 Europe/Berlin] Parametrul action primit: get_route
+[13-Apr-2025 21:59:03 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:59:03 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:59:03 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:59:03 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_route
+    [id] => 8
+)
+
+[13-Apr-2025 21:59:03 Europe/Berlin] Parametrul action primit: delete_route
+[13-Apr-2025 21:59:09 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:59:09 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:59:09 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:59:09 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 23
+)
+
+[13-Apr-2025 21:59:09 Europe/Berlin] Parametrul action primit: delete_station
+[13-Apr-2025 21:59:12 Europe/Berlin] Oras extras din BD: iasi
+[13-Apr-2025 21:59:12 Europe/Berlin] Tabel folosit pentru stații: statii_iasi
+[13-Apr-2025 21:59:12 Europe/Berlin] Tabel folosit pentru rute: rute_iasi
+[13-Apr-2025 21:59:12 Europe/Berlin] AJAX POST data: Array
+(
+    [action] => delete_station
+    [id] => 24
+)
+
+[13-Apr-2025 21:59:12 Europe/Berlin] Parametrul action primit: delete_station

@@ -13,7 +13,7 @@
       <form method="POST" action="admin-login.php">
         <div class="form-group">
           <label for="email">Utilizator</label>
-          <input type="text" id="email" name="email" placeholder="Introdu utilizatorul" required>
+          <input type="text" id="email" name="email" placeholder="Introdu emailul" required>
         </div>
         <div class="form-group">
           <label for="password">Parolă</label>

@@ -1,70 +1,124 @@
-<!-- navbar.html -->
-<!-- Link către CSS principal -->
-<link rel="stylesheet" href="styles.css" />
-
-<!-- Navbar HTML -->
-<header class="top-nav">
-  <div class="nav-container">
-    <div class="logo">
-      <h1>UrbanFlow</h1>
-    </div>
-    <button class="menu-toggle" id="menuToggle">&#9776;</button> <!-- hamburger -->
-    <nav id="mainNav">
-      <ul>
-        <li><a href="index.php">Acasă</a></li>
-        <li><a href="#">Rute</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="register.html">Înregistrează-te</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<!-- Stiluri pentru responsive -->
-<style>
-  .menu-toggle {
-    display: none;
-    font-size: 1.5rem;
-    background: none;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    .menu-toggle {
-      display: block;
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar Test - UrbanFlow</title>
+  <style>
+    /* Resetări de bază și stilurile generale */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
-
-    nav ul {
-      display: none;
-      flex-direction: column;
-      background-color: #2ecc71;
-      position: absolute;
-      top: 60px;
-      right: 0;
-      width: 100%;
-    }
-
-    nav ul.show {
-      display: flex;
-    }
-
-    nav ul li {
-      text-align: center;
-      padding: 0.8rem 0;
-    }
-  }
-</style>
-
-<!-- Script pentru funcționalitatea meniului -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const toggle = document.getElementById("menuToggle");
-    const nav = document.querySelector("nav ul");
     
-    toggle.addEventListener("click", () => {
-      nav.classList.toggle("show");
+    .top-nav {
+      background-color: #2ecc71;
+      color: white;
+      padding: 10px 20px;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative; /* Pentru ca meniul dropdown să fie poziționat corect */
+    }
+    
+    .logo h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    
+    /* Lista de meniu pe desktop */
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+    }
+    
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    
+    /* Butonul hamburger */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    
+    /* Stiluri pentru ecrane mici */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Ajustează în funcție de înălțimea header-ului */
+        right: 0;
+        width: 100%;
+        background-color: #2ecc71;
+        display: none; /* Ascuns implicit */
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Când se adaugă clasa "show", meniul este vizibil */
+      nav ul.show {
+        display: flex;
+      }
+      
+      nav ul li {
+        padding: 12px 0;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      
+      /* Eliminăm bordura de la primul element */
+      nav ul li:first-child {
+        border-top: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar HTML -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <h1>UrbanFlow</h1>
+      </div>
+      <button class="menu-toggle" id="menuToggle">&#9776;</button>
+      <nav>
+        <ul id="navList">
+          <li><a href="index.php">Acasă</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="register.html">Înregistrează-te</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    // Asigură-te că DOM-ul e încărcat înainte să atasezi evenimente
+    document.addEventListener("DOMContentLoaded", function() {
+      const toggle = document.getElementById("menuToggle");
+      const navList = document.getElementById("navList");
+      
+      toggle.addEventListener("click", function() {
+        navList.classList.toggle("show");
+      });
     });
-  });
-</script>
+  </script>
+</body>
+</html>
